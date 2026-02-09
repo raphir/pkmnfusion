@@ -10,6 +10,11 @@ Gen 2 Pokémon-inspired game with:
 - Multiple biomes (grass, water, etc.)
 - Tile ID system for extensibility
 
+## Git workflow
+- Before starting work, check for uncommitted changes - refuse to work until resolved (commit or revert)
+- Before starting work, branch off from current working branch prefixed with "claude-" (e.g., base `feature/ABC-123` → `claude-feature/ABC-123`)
+- Refuse to branch from `main` or `development` directly - ask user to create a ticket first
+
 ## Code Structure
 
 ```
