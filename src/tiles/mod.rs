@@ -1,5 +1,6 @@
 pub mod grass;
 pub mod water;
+pub mod flowers;
 
 use bevy::prelude::*;
 
@@ -45,6 +46,9 @@ impl TileRegistry {
 
         // Register all water tiles
         tiles.extend_from_slice(&water::WATER_TILES);
+
+        // Register all flower tiles
+        tiles.extend_from_slice(&flowers::FLOWER_TILES);
 
         Self { tiles }
     }

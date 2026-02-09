@@ -1,6 +1,17 @@
 use super::TileDefinition;
 
-// Grass tile IDs: 100-199
+// Grass tile IDs: 100-108 (flowers moved to flowers.rs: 110-129)
+
+// 4x8 atlas base tile
+pub const GRASS_BASE: TileDefinition = TileDefinition::new(
+    109,
+    "grass_base",
+    "grass_biome_4x8_16x16.png",
+    0,
+    true,
+);
+
+// 8x atlas tiles
 pub const GRASS_PLAIN_1: TileDefinition = TileDefinition::new(
     101,
     "grass_plain_1",
@@ -75,4 +86,5 @@ pub const GRASS_TILES: &[TileDefinition] = &[
     GRASS_TALL_2,
     GRASS_VARIANT_1,
     GRASS_VARIANT_2,
+    GRASS_BASE,
 ];

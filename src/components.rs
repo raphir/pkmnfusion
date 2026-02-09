@@ -13,3 +13,11 @@ pub struct Object {
     pub width: u32,
     pub height: u32,
 }
+
+#[derive(Component)]
+pub struct AnimatedTile {
+    pub frames: Vec<u32>,      // Atlas indices for animation frames
+    pub frame_duration: f32,    // Duration per frame in seconds
+    pub timer: Timer,
+    pub current_frame: usize,
+}
