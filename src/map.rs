@@ -2,7 +2,16 @@ use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
 use std::collections::HashMap;
 
-use crate::tiles::{grass::GRASS_TILES, water::WATER_DEEP, TileRegistryResource};
+use crate::tiles::{
+    flowers::{
+        get_animation_frames, ORANGE_FLOWER_1, ORANGE_FLOWER_MIRROR_1, PURPLE_FLOWER_1,
+        PURPLE_FLOWER_MIRROR_1,
+    },
+    grass::GRASS_TILES,
+    water::WATER_DEEP,
+    TileRegistryResource,
+};
+use crate::components::AnimatedTile;
 
 pub const MAP_W: usize = 16;
 pub const MAP_H: usize = 16;
@@ -59,11 +68,22 @@ pub fn setup_map(mut commands: Commands, asset_server: AssetServer) {
         }
     }
 
+    // Lower left: animated flowers (4x4 section)
+    // Example: explicit placement with different variants
     for y in 0..4 {
         for x in 0..4 {
-            map_data.set_tile(x, y, GRASS_TILES[1].id )
+            // Checkerboard pattern of orange and purple flowers
+            if (x + y) % 2 == 0 {
+                map_data.set_tile(x, y, ORANGE_FLOWER_1.id);
+            } else {
+                map_data.set_tile(x, y, PURPLE_FLOWER_1.id);
+            }
         }
     }
+
+    // Example: Mix in mirrored variants
+    // map_data.set_tile(0, 0, ORANGE_FLOWER_MIRROR_1.id);
+    // map_data.set_tile(1, 0, PURPLE_FLOWER_MIRROR_1.id);
 
     // Spawn tilemaps from map data
     spawn_tilemaps(&mut commands, asset_server, &map_data);
@@ -110,15 +130,25 @@ fn spawn_tilemaps(commands: &mut Commands, asset_server: AssetServer, map_data: 
         let tilemap_entity = commands.spawn_empty().id();
         let mut tile_storage = TileStorage::empty(map_size);
 
-        for (tile_pos, atlas_index, _tile_id) in tiles {
-            let tile_entity = commands
-                .spawn(TileBundle {
-                    position: *tile_pos,
-                    tilemap_id: TilemapId(tilemap_entity),
-                    texture_index: TileTextureIndex(*atlas_index),
-                    ..Default::default()
-                })
-                .id();
+        for (tile_pos, atlas_index, tile_id) in tiles {
+            let mut entity_commands = commands.spawn(TileBundle {
+                position: *tile_pos,
+                tilemap_id: TilemapId(tilemap_entity),
+                texture_index: TileTextureIndex(*atlas_index),
+                ..Default::default()
+            });
+
+            // Add animation component for flower tiles using helper
+            if let Some(frames) = get_animation_frames(*tile_id) {
+                entity_commands.insert(AnimatedTile {
+                    frames,
+                    frame_duration: 0.4,
+                    timer: Timer::from_seconds(0.4, TimerMode::Repeating),
+                    current_frame: 0,
+                });
+            }
+
+            let tile_entity = entity_commands.id();
             tile_storage.set(tile_pos, tile_entity);
         }
 
