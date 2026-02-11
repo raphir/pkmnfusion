@@ -104,8 +104,8 @@ pub const PURPLE_FLOWER_MIRROR_3: TileDefinition = TileDefinition::new(
 
 // ===== Animation Frame Sequences =====
 // Use these in the animation system to determine which frames to cycle through
-pub const ORANGE_FRAMES: [u32; 4] = [2, 3, 4, 3];
-pub const ORANGE_MIRROR_FRAMES: [u32; 4] = [5, 6, 7, 6];
+pub const ORANGE_FRAMES: [u32; 4] = [2, 3, 2, 4];
+pub const ORANGE_MIRROR_FRAMES: [u32; 4] = [5, 6, 5, 7];
 pub const PURPLE_FRAMES: [u32; 4] = [6, 7, 8, 7];
 pub const PURPLE_MIRROR_FRAMES: [u32; 4] = [9, 10, 11, 10];
 

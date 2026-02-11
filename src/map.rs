@@ -72,12 +72,7 @@ pub fn setup_map(mut commands: Commands, asset_server: AssetServer) {
     // Example: explicit placement with different variants
     for y in 0..4 {
         for x in 0..4 {
-            // Checkerboard pattern of orange and purple flowers
-            if (x + y) % 2 == 0 {
-                map_data.set_tile(x, y, ORANGE_FLOWER_1.id);
-            } else {
-                map_data.set_tile(x, y, PURPLE_FLOWER_1.id);
-            }
+            map_data.set_tile(x, y, ORANGE_FLOWER_1.id);
         }
     }
 
