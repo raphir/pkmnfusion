@@ -4,6 +4,15 @@ pub mod flowers;
 
 use bevy::prelude::*;
 
+/// Trigger that fires when player steps on a tile
+#[derive(Clone, Copy, Debug)]
+pub enum TileTrigger {
+    None,
+    GrassEncounter { rate: f32 },
+    Sign { text: &'static str },
+    Warp { map: &'static str, x: i32, y: i32 },
+}
+
 /// Stable tile definition - ID never changes even if atlas reorganized
 #[derive(Clone, Copy, Debug)]
 pub struct TileDefinition {
@@ -12,6 +21,7 @@ pub struct TileDefinition {
     pub atlas: &'static str,
     pub atlas_index: u32,
     pub walkable: bool,
+    pub trigger: TileTrigger,
 }
 
 impl TileDefinition {
@@ -21,6 +31,7 @@ impl TileDefinition {
         atlas: &'static str,
         atlas_index: u32,
         walkable: bool,
+        trigger: TileTrigger,
     ) -> Self {
         Self {
             id,
@@ -28,6 +39,7 @@ impl TileDefinition {
             atlas,
             atlas_index,
             walkable,
+            trigger,
         }
     }
 }

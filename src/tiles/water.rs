@@ -1,4 +1,4 @@
-use super::TileDefinition;
+use super::{TileDefinition, TileTrigger};
 
 // Water tile IDs: 200-299
 pub const WATER_DEEP: TileDefinition = TileDefinition::new(
@@ -7,6 +7,7 @@ pub const WATER_DEEP: TileDefinition = TileDefinition::new(
     "water_biome_1x_16x16.png",
     0,
     false, // Can't walk on water
+    TileTrigger::None,
 );
 
 // Export all water tiles as array for registry

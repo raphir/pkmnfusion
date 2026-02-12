@@ -1,4 +1,4 @@
-use super::TileDefinition;
+use super::{TileDefinition, TileTrigger};
 
 // Flower tile IDs: 110-129 (within grass biome range 100-199)
 
@@ -9,6 +9,7 @@ pub const ORANGE_FLOWER_1: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     2,
     true,
+    TileTrigger::None,
 );
 
 pub const ORANGE_FLOWER_2: TileDefinition = TileDefinition::new(
@@ -17,6 +18,7 @@ pub const ORANGE_FLOWER_2: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     3,
     true,
+    TileTrigger::None,
 );
 
 pub const ORANGE_FLOWER_3: TileDefinition = TileDefinition::new(
@@ -25,6 +27,7 @@ pub const ORANGE_FLOWER_3: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     4,
     true,
+    TileTrigger::None,
 );
 
 // ===== Orange Flowers (Mirrored) =====
@@ -34,6 +37,7 @@ pub const ORANGE_FLOWER_MIRROR_1: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     5,  // Adjust based on actual atlas layout
     true,
+    TileTrigger::None,
 );
 
 pub const ORANGE_FLOWER_MIRROR_2: TileDefinition = TileDefinition::new(
@@ -42,6 +46,7 @@ pub const ORANGE_FLOWER_MIRROR_2: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     6,
     true,
+    TileTrigger::None,
 );
 
 pub const ORANGE_FLOWER_MIRROR_3: TileDefinition = TileDefinition::new(
@@ -50,6 +55,7 @@ pub const ORANGE_FLOWER_MIRROR_3: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     7,
     true,
+    TileTrigger::None,
 );
 
 // ===== Purple Flowers (Non-mirrored) =====
@@ -59,6 +65,7 @@ pub const PURPLE_FLOWER_1: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     6,  // Adjusted from user's correction
     true,
+    TileTrigger::None,
 );
 
 pub const PURPLE_FLOWER_2: TileDefinition = TileDefinition::new(
@@ -67,6 +74,7 @@ pub const PURPLE_FLOWER_2: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     7,
     true,
+    TileTrigger::None,
 );
 
 pub const PURPLE_FLOWER_3: TileDefinition = TileDefinition::new(
@@ -75,6 +83,7 @@ pub const PURPLE_FLOWER_3: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     8,
     true,
+    TileTrigger::None,
 );
 
 // ===== Purple Flowers (Mirrored) =====
@@ -84,6 +93,7 @@ pub const PURPLE_FLOWER_MIRROR_1: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     9,  // Adjust based on actual atlas layout
     true,
+    TileTrigger::None,
 );
 
 pub const PURPLE_FLOWER_MIRROR_2: TileDefinition = TileDefinition::new(
@@ -92,6 +102,7 @@ pub const PURPLE_FLOWER_MIRROR_2: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     10,
     true,
+    TileTrigger::None,
 );
 
 pub const PURPLE_FLOWER_MIRROR_3: TileDefinition = TileDefinition::new(
@@ -100,6 +111,7 @@ pub const PURPLE_FLOWER_MIRROR_3: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     11,
     true,
+    TileTrigger::None,
 );
 
 // ===== Animation Frame Sequences =====
