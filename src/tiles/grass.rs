@@ -1,4 +1,4 @@
-use super::TileDefinition;
+use super::{TileDefinition, TileTrigger};
 
 // Grass tile IDs: 100-108 (flowers moved to flowers.rs: 110-129)
 
@@ -9,6 +9,7 @@ pub const GRASS_BASE: TileDefinition = TileDefinition::new(
     "grass_biome_4x8_16x16.png",
     0,
     true,
+    TileTrigger::None,
 );
 
 // 8x atlas tiles
@@ -18,6 +19,7 @@ pub const GRASS_PLAIN_1: TileDefinition = TileDefinition::new(
     "grass_biome_8x_16x16.png",
     0,
     true,
+    TileTrigger::None,
 );
 
 pub const GRASS_PLAIN_2: TileDefinition = TileDefinition::new(
@@ -26,6 +28,7 @@ pub const GRASS_PLAIN_2: TileDefinition = TileDefinition::new(
     "grass_biome_8x_16x16.png",
     1,
     true,
+    TileTrigger::None,
 );
 
 pub const GRASS_FLOWERS_1: TileDefinition = TileDefinition::new(
@@ -34,6 +37,7 @@ pub const GRASS_FLOWERS_1: TileDefinition = TileDefinition::new(
     "grass_biome_8x_16x16.png",
     2,
     true,
+    TileTrigger::None,
 );
 
 pub const GRASS_FLOWERS_2: TileDefinition = TileDefinition::new(
@@ -42,6 +46,7 @@ pub const GRASS_FLOWERS_2: TileDefinition = TileDefinition::new(
     "grass_biome_8x_16x16.png",
     3,
     true,
+    TileTrigger::None,
 );
 
 pub const GRASS_TALL_1: TileDefinition = TileDefinition::new(
@@ -50,6 +55,7 @@ pub const GRASS_TALL_1: TileDefinition = TileDefinition::new(
     "grass_biome_8x_16x16.png",
     4,
     true,
+    TileTrigger::GrassEncounter { rate: 0.1 },
 );
 
 pub const GRASS_TALL_2: TileDefinition = TileDefinition::new(
@@ -58,6 +64,7 @@ pub const GRASS_TALL_2: TileDefinition = TileDefinition::new(
     "grass_biome_8x_16x16.png",
     5,
     true,
+    TileTrigger::GrassEncounter { rate: 0.1 },
 );
 
 pub const GRASS_VARIANT_1: TileDefinition = TileDefinition::new(
@@ -66,6 +73,7 @@ pub const GRASS_VARIANT_1: TileDefinition = TileDefinition::new(
     "grass_biome_8x_16x16.png",
     6,
     true,
+    TileTrigger::None,
 );
 
 pub const GRASS_VARIANT_2: TileDefinition = TileDefinition::new(
@@ -74,6 +82,7 @@ pub const GRASS_VARIANT_2: TileDefinition = TileDefinition::new(
     "grass_biome_8x_16x16.png",
     7,
     true,
+    TileTrigger::None,
 );
 
 // Export all grass tiles as array for registry

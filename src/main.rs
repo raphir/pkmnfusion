@@ -6,7 +6,7 @@ mod tiles;
 use bevy::prelude::*;
 use bevy_ecs_tilemap::prelude::*;
 
-use components::AnimatedTile;
+use components::{AnimatedTile, TileStepEvent};
 use tiles::TileRegistryResource;
 
 fn main() {
@@ -24,6 +24,7 @@ fn main() {
         )
         .add_plugins(TilemapPlugin)
         .insert_resource(TileRegistryResource::default())
+        .add_message::<TileStepEvent>()
         .add_systems(Startup, setup)
         .add_systems(
             Update,

@@ -101,6 +101,25 @@ pub const NEW_TILE: TileDefinition = TileDefinition::new(
 - WASD: Move player
 - Z/X: Zoom in/out
 
+## Development Workflow
+
+**Hot reloading with cargo-watch:**
+```bash
+# Install once
+cargo install cargo-watch
+
+# Run with auto-recompile on file save
+cargo watch -x 'run --release'
+
+# Or with dynamic linking (faster recompiles)
+cargo watch -x 'run --features dev'
+```
+
+**Performance:**
+- Debug mode (`cargo run`) is slow but usable (opt-level 1)
+- Release mode (`cargo run --release`) for testing performance
+- Dynamic linking (`--features dev`) saves 2-3s per recompile
+
 ## Coding Style
 
 - Concise, no unnecessary abstractions

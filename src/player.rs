@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::components::{Object, Player};
+use crate::components::{Object, Player, TileStepEvent};
 use crate::map::{MapDataResource, TILE_SIZE, MAP_H, MAP_W};
 use crate::tiles::TileRegistryResource;
 
@@ -10,6 +10,7 @@ pub fn player_movement(
     object_query: Query<&Object>,
     map_data: Res<MapDataResource>,
     tile_registry: Res<TileRegistryResource>,
+    mut tile_events: MessageWriter<TileStepEvent>,
 ) {
     let Ok(mut player) = player_query.single_mut() else {
         return;
@@ -65,6 +66,18 @@ pub fn player_movement(
         if !collision {
             player.grid_x = new_x;
             player.grid_y = new_y;
+
+            // Fire tile step event if tile has a trigger
+            if let Some(tile_id) = map_data.0.get_tile(new_x as usize, new_y as usize) {
+                if let Some(tile_def) = tile_registry.0.get(tile_id) {
+                    if !matches!(tile_def.trigger, crate::tiles::TileTrigger::None) {
+                        tile_events.write(TileStepEvent {
+                            tile_id,
+                            trigger: tile_def.trigger,
+                        });
+                    }
+                }
+            }
         }
     }
 }
