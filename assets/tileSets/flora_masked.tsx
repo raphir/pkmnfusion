@@ -19,7 +19,7 @@
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="3" type="tree_pine_medium">
+ <tile id="3" type="tree_pine_medium_canopy">
   <properties>
    <property name="walkable" type="bool" value="true"/>
   </properties>
@@ -77,12 +77,12 @@
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="19" type="tree_pine_medium">
+ <tile id="19" type="tree_pine_medium_midsection">
   <properties>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="20" type="tee_pine_medium">
+ <tile id="20" type="tree_pine_medium_canopy">
   <properties>
    <property name="walkable" type="bool" value="true"/>
   </properties>
@@ -135,52 +135,52 @@
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="35" type="tree_pine_medium">
+ <tile id="35" type="tree_pine_medium_trunk">
   <properties>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="36" type="tee_pine_medium">
+ <tile id="36" type="tree_pine_medium_trunk">
   <properties>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="48" type="tree_leafy_medium">
+ <tile id="48" type="tree_leafy_medium_canopy">
   <properties>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="49" type="tree_leafy_medium">
+ <tile id="49" type="tree_leafy_medium_canopy">
   <properties>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="50" type="tree_leafy_big">
+ <tile id="50" type="tree_leafy_big_canopy">
   <properties>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="51" type="tree_leafy_big">
+ <tile id="51" type="tree_leafy_big_canopy">
   <properties>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="64" type="tree_leafy_medium">
+ <tile id="64" type="tree_leafy_medium_trunk">
   <properties>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="65" type="tree_leafy_medium">
+ <tile id="65" type="tree_leafy_medium_midsection">
   <properties>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="66" type="tree_leafy_big">
+ <tile id="66" type="tree_leafy_big_trunk">
   <properties>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="67" type="tree_leafy_big">
+ <tile id="67" type="tree_leafy_big_trunk">
   <properties>
    <property name="walkable" type="bool" value="false"/>
   </properties>
@@ -190,7 +190,7 @@
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="81" type="tree_leafy_medium">
+ <tile id="81" type="tree_leafy_medium_trunk">
   <properties>
    <property name="walkable" type="bool" value="false"/>
   </properties>

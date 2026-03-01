@@ -21,27 +21,31 @@
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="7" type="water">
+ <tile id="7" type="water_sea">
   <properties>
    <property name="encounterRate" type="float" value="0.1"/>
+   <property name="surfable" type="bool" value="true"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="8" type="water">
+ <tile id="8" type="water_sea">
   <properties>
    <property name="encounterRate" type="float" value="0.1"/>
+   <property name="surfable" type="bool" value="true"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="9" type="water">
+ <tile id="9" type="water_sea">
   <properties>
    <property name="encounterRate" type="float" value="0.1"/>
+   <property name="surfable" type="bool" value="true"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="10" type="water">
+ <tile id="10" type="water_sea">
   <properties>
    <property name="encounterRate" type="float" value="0.1"/>
+   <property name="surfable" type="bool" value="true"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
@@ -65,21 +69,24 @@
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="23" type="water">
+ <tile id="23" type="water_pond">
   <properties>
    <property name="encounterRate" type="float" value="0.15"/>
+   <property name="surfable" type="bool" value="true"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="24" type="water">
+ <tile id="24" type="water_pond">
   <properties>
    <property name="encounterRate" type="float" value="0.15"/>
+   <property name="surfable" type="bool" value="true"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="25" type="water">
+ <tile id="25" type="water_pond">
   <properties>
    <property name="encounterRate" type="float" value="0.15"/>
+   <property name="surfable" type="bool" value="true"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
@@ -88,18 +95,21 @@
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
- <tile id="39" type="water">
+ <tile id="39" type="water_reef">
   <properties>
+   <property name="surfable" type="bool" value="false"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="40" type="water">
+ <tile id="40" type="water_reef">
   <properties>
+   <property name="surfable" type="bool" value="false"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
- <tile id="41" type="water">
+ <tile id="41" type="water_reef">
   <properties>
+   <property name="surfable" type="bool" value="false"/>
    <property name="walkable" type="bool" value="false"/>
   </properties>
  </tile>
