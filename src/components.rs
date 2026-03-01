@@ -1,9 +1,16 @@
 use bevy::prelude::*;
+use crate::tiles::TileTrigger;
 
 #[derive(Component)]
 pub struct Player {
     pub grid_x: i32,
     pub grid_y: i32,
+}
+
+#[derive(Message, Clone)]
+pub struct TileStepEvent {
+    pub tile_id: u32,
+    pub trigger: TileTrigger,
 }
 
 #[derive(Component)]
