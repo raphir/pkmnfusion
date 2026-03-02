@@ -4,14 +4,14 @@ use bevy_ecs_tilemap::tiles::{AnimatedTile, TileTextureIndex};
 
 // (start_inclusive, end_exclusive, speed)
 const GROUND_ANIMS: &[(u32, u32, f32)] = &[
-    (7, 11, 2.0),  // water_sea
-    (23, 26, 2.0), // water_pond
-    (39, 42, 1.5), // water_reef
+    (7, 11, 0.5),  // water_sea
+    (23, 26, 0.5), // water_pond
+    (39, 42, 0.5), // water_reef
 ];
 
 const FLORA_ANIMS: &[(u32, u32, f32)] = &[
-    (7, 13, 1.5),  // flowers_a
-    (23, 29, 1.5), // flowers_b
+    (7, 13, 0.5),  // flowers_a
+    (23, 29, 0.5), // flowers_b
 ];
 
 #[derive(Resource)]
