@@ -1,171 +1,132 @@
 use bevy::prelude::*;
-use bevy_ecs_tilemap::prelude::*;
-use std::collections::HashMap;
+use bevy_ecs_tiled::prelude::*;
 
-use crate::tiles::{
-    flowers::{
-        get_animation_frames, ORANGE_FLOWER_1, ORANGE_FLOWER_MIRROR_1, PURPLE_FLOWER_1,
-        PURPLE_FLOWER_MIRROR_1,
-    },
-    grass::GRASS_TILES,
-    water::WATER_DEEP,
-    TileRegistryResource,
-};
-use crate::components::AnimatedTile;
-
-pub const MAP_W: usize = 16;
-pub const MAP_H: usize = 16;
 pub const TILE_SIZE: f32 = 16.0;
 
-/// Map data - stores stable tile IDs
-#[derive(Clone)]
-pub struct MapData {
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
+pub enum TileMovement {
+    #[default]
+    Free,
+    Blocked,
+    Ledge {
+        dx: i32,
+        dy: i32,
+    },
+}
+
+#[derive(Resource)]
+pub struct WalkabilityMap {
     pub width: usize,
     pub height: usize,
-    tiles: Vec<u32>, // Tile IDs
+    tiles: Vec<TileMovement>,
 }
 
-impl MapData {
-    pub fn new(width: usize, height: usize) -> Self {
-        Self {
-            width,
-            height,
-            tiles: vec![0; width * height],
-        }
+impl WalkabilityMap {
+    pub fn in_bounds(&self, x: i32, y: i32) -> bool {
+        x >= 0 && y >= 0 && (x as usize) < self.width && (y as usize) < self.height
     }
 
-    pub fn set_tile(&mut self, x: usize, y: usize, tile_id: u32) {
-        if x < self.width && y < self.height {
-            self.tiles[y * self.width + x] = tile_id;
+    pub fn can_enter(&self, x: i32, y: i32, dx: i32, dy: i32) -> bool {
+        if !self.in_bounds(x, y) {
+            return false;
         }
-    }
-
-    pub fn get_tile(&self, x: usize, y: usize) -> Option<u32> {
-        if x < self.width && y < self.height {
-            Some(self.tiles[y * self.width + x])
-        } else {
-            None
+        match self.tiles[y as usize * self.width + x as usize] {
+            TileMovement::Free => true,
+            TileMovement::Blocked => false,
+            TileMovement::Ledge { dx: lx, dy: ly } => dx == lx && dy == ly,
         }
     }
 }
 
-pub fn setup_map(mut commands: Commands, asset_server: AssetServer) {
-    // Create map data with grass and water
-    let mut map_data = MapData::new(MAP_W, MAP_H);
-
-    // Fill with grass (pseudorandom pattern)
-    for y in 0..MAP_H {
-        for x in 0..MAP_W {
-            let tile_idx = (x * 7 + y * 13) % GRASS_TILES.len();
-            map_data.set_tile(x, y, GRASS_TILES[tile_idx].id);
-        }
+fn parse_jump_direction(value: &str) -> Option<(i32, i32)> {
+    match value {
+        "down" => Some((0, -1)),
+        "up" => Some((0, 1)),
+        "left" => Some((-1, 0)),
+        "right" => Some((1, 0)),
+        _ => None,
     }
-
-    // Add water in lower right (4x4 section)
-    for y in 0..4 {
-        for x in 12..MAP_W {
-            map_data.set_tile(x, y, WATER_DEEP.id);
-        }
-    }
-
-    // Lower left: animated flowers (4x4 section)
-    // Example: explicit placement with different variants
-    for y in 0..4 {
-        for x in 0..4 {
-            map_data.set_tile(x, y, ORANGE_FLOWER_1.id);
-        }
-    }
-
-    // Example: Mix in mirrored variants
-    // map_data.set_tile(0, 0, ORANGE_FLOWER_MIRROR_1.id);
-    // map_data.set_tile(1, 0, PURPLE_FLOWER_MIRROR_1.id);
-
-    // Spawn tilemaps from map data
-    spawn_tilemaps(&mut commands, asset_server, &map_data);
 }
 
-fn spawn_tilemaps(commands: &mut Commands, asset_server: AssetServer, map_data: &MapData) {
-    let map_size = TilemapSize {
-        x: map_data.width as u32,
-        y: map_data.height as u32,
+pub fn setup_map(mut commands: Commands, asset_server: Res<AssetServer>) {
+    commands.spawn((
+        TiledMap(asset_server.load("maps/prototype.tmx")),
+        TilemapAnchor::Center,
+    ));
+}
+
+pub fn build_walkability(
+    map_query: Query<&TiledMap>,
+    assets: Res<Assets<TiledMapAsset>>,
+    mut commands: Commands,
+) {
+    let Ok(tiled_map) = map_query.single() else {
+        return;
     };
-    let tile_size = TilemapTileSize { x: 16.0, y: 16.0 };
-    let grid_size: TilemapGridSize = tile_size.into();
 
-    // Group tiles by atlas
-    let mut atlas_tiles: HashMap<String, Vec<(TilePos, u32, u32)>> = HashMap::new();
+    let Some(asset) = assets.get(&tiled_map.0) else {
+        return;
+    };
 
-    let registry = TileRegistryResource::default().0;
+    let map = &asset.map;
+    let width = map.width as usize;
+    let height = map.height as usize;
 
-    for y in 0..map_data.height {
-        for x in 0..map_data.width {
-            if let Some(tile_id) = map_data.get_tile(x, y) {
-                if let Some(tile_def) = registry.get(tile_id) {
-                    let atlas_key = tile_def.atlas.to_string();
-                    atlas_tiles
-                        .entry(atlas_key)
-                        .or_default()
-                        .push((
-                            TilePos {
-                                x: x as u32,
-                                y: y as u32,
-                            },
-                            tile_def.atlas_index,
-                            tile_id,
-                        ));
+    let mut tiles = vec![TileMovement::Free; width * height];
+
+    // Layers iterate bottom-to-top; higher layers override lower
+    for layer in map.layers() {
+        let Some(tile_layer) = layer.as_tile_layer() else {
+            continue;
+        };
+
+        for tiled_y in 0..height {
+            for x in 0..width {
+                let Some(layer_tile) = tile_layer.get_tile(x as i32, tiled_y as i32) else {
+                    continue;
+                };
+
+                let Some(tile) = layer_tile.get_tile() else {
+                    continue;
+                };
+
+                // Tiled y=0 is top, bevy y=0 is bottom
+                let bevy_y = (height - 1) - tiled_y;
+                let idx = bevy_y * width + x;
+
+                // jumpDirection takes priority over walkable
+                if let Some(::tiled::PropertyValue::StringValue(dir)) =
+                    tile.properties.get("jumpDirection")
+                {
+                    if let Some((dx, dy)) = parse_jump_direction(dir) {
+                        tiles[idx] = TileMovement::Ledge { dx, dy };
+                    }
+                } else if let Some(::tiled::PropertyValue::BoolValue(walkable)) =
+                    tile.properties.get("walkable")
+                {
+                    tiles[idx] = if *walkable {
+                        TileMovement::Free
+                    } else {
+                        TileMovement::Blocked
+                    };
                 }
             }
         }
     }
 
-    // Spawn separate tilemap for each atlas
-    let mut z_index = 0.0;
-    for (atlas_name, tiles) in atlas_tiles.iter() {
-        let texture_handle: Handle<Image> = asset_server.load(atlas_name.clone());
-        let tilemap_entity = commands.spawn_empty().id();
-        let mut tile_storage = TileStorage::empty(map_size);
+    let blocked = tiles
+        .iter()
+        .filter(|t| **t == TileMovement::Blocked)
+        .count();
+    let ledges = tiles
+        .iter()
+        .filter(|t| matches!(t, TileMovement::Ledge { .. }))
+        .count();
+    info!("Built movement map: {width}x{height}, {blocked} blocked, {ledges} ledges");
 
-        for (tile_pos, atlas_index, tile_id) in tiles {
-            let mut entity_commands = commands.spawn(TileBundle {
-                position: *tile_pos,
-                tilemap_id: TilemapId(tilemap_entity),
-                texture_index: TileTextureIndex(*atlas_index),
-                ..Default::default()
-            });
-
-            // Add animation component for flower tiles using helper
-            if let Some(frames) = get_animation_frames(*tile_id) {
-                entity_commands.insert(AnimatedTile {
-                    frames,
-                    frame_duration: 0.4,
-                    timer: Timer::from_seconds(0.4, TimerMode::Repeating),
-                    current_frame: 0,
-                });
-            }
-
-            let tile_entity = entity_commands.id();
-            tile_storage.set(tile_pos, tile_entity);
-        }
-
-        commands.entity(tilemap_entity).insert(TilemapBundle {
-            grid_size,
-            map_type: TilemapType::default(),
-            size: map_size,
-            storage: tile_storage,
-            texture: TilemapTexture::Single(texture_handle),
-            tile_size,
-            anchor: TilemapAnchor::Center,
-            transform: Transform::from_xyz(0.0, 0.0, z_index),
-            ..Default::default()
-        });
-
-        z_index += 1.0;
-    }
-
-    // Store map data as resource for collision checks
-    commands.insert_resource(MapDataResource(map_data.clone()));
+    commands.insert_resource(WalkabilityMap {
+        width,
+        height,
+        tiles,
+    });
 }
-
-/// Resource to access map data
-#[derive(Resource, Clone)]
-pub struct MapDataResource(pub MapData);

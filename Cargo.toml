@@ -5,7 +5,9 @@ edition = "2024"
 
 [dependencies]
 bevy = "0.18"
+bevy_ecs_tiled = "0.11"
 bevy_ecs_tilemap = "0.18"
+tiled = "0.15"
 
 # Faster debug builds — critical for Bevy
 [profile.dev]
