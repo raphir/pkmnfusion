@@ -3887,6 +3887,7 @@ dependencies = [
  "bevy",
  "bevy_ecs_tiled",
  "bevy_ecs_tilemap",
+ "tiled",
 ]
 
 [[package]]

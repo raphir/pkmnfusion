@@ -26,6 +26,7 @@ fn main() {
         .add_systems(
             Update,
             (
+                map::build_walkability.run_if(not(resource_exists::<map::WalkabilityMap>)),
                 player::player_movement,
                 player::update_sprite_positions,
                 player::camera_follow,

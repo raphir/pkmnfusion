@@ -1,12 +1,16 @@
 use bevy::prelude::*;
 
 use crate::components::Player;
-use crate::map::TILE_SIZE;
+use crate::map::{WalkabilityMap, TILE_SIZE};
 
-const PLAYER_START_X: i32 = 12;
-const PLAYER_START_Y: i32 = 10;
+const PLAYER_START_X: i32 = 18;
+const PLAYER_START_Y: i32 = 0;
 
-pub fn player_movement(kb: Res<ButtonInput<KeyCode>>, mut player_query: Query<&mut Player>) {
+pub fn player_movement(
+    kb: Res<ButtonInput<KeyCode>>,
+    mut player_query: Query<&mut Player>,
+    walkability: Option<Res<WalkabilityMap>>,
+) {
     let Ok(mut player) = player_query.single_mut() else {
         return;
     };
@@ -27,16 +31,37 @@ pub fn player_movement(kb: Res<ButtonInput<KeyCode>>, mut player_query: Query<&m
         dx = 1;
     }
 
-    if dx != 0 || dy != 0 {
-        player.grid_x += dx;
-        player.grid_y += dy;
+    if dx == 0 && dy == 0 {
+        return;
     }
+
+    let new_x = player.grid_x + dx;
+    let new_y = player.grid_y + dy;
+
+    if let Some(ref map) = walkability {
+        if !map.is_walkable(new_x, new_y) {
+            return;
+        }
+    }
+
+    player.grid_x = new_x;
+    player.grid_y = new_y;
 }
 
-pub fn update_sprite_positions(mut player_query: Query<(&Player, &mut Transform)>) {
+pub fn update_sprite_positions(
+    mut player_query: Query<(&Player, &mut Transform)>,
+    walkability: Option<Res<WalkabilityMap>>,
+) {
     for (player, mut transform) in &mut player_query {
-        transform.translation.x = player.grid_x as f32 * TILE_SIZE;
-        transform.translation.y = player.grid_y as f32 * TILE_SIZE;
+        if let Some(ref map) = walkability {
+            let w = map.width as f32;
+            let h = map.height as f32;
+            transform.translation.x = (player.grid_x as f32 - w / 2.0 + 0.5) * TILE_SIZE;
+            transform.translation.y = (player.grid_y as f32 - h / 2.0 + 0.5) * TILE_SIZE;
+        } else {
+            transform.translation.x = player.grid_x as f32 * TILE_SIZE;
+            transform.translation.y = player.grid_y as f32 * TILE_SIZE;
+        }
     }
 }
 

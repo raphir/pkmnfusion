@@ -27,3 +27,6 @@ target
 venv/
 __pycache__/
 *.pyc
+
+# Tiled types export (dev artifact)
+tiled_types_export.json
