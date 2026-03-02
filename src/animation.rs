@@ -3,15 +3,17 @@ use bevy_ecs_tiled::prelude::*;
 use bevy_ecs_tilemap::tiles::{AnimatedTile, TileTextureIndex};
 
 // (start_inclusive, end_exclusive, speed)
-const GROUND_ANIMS: &[(u32, u32, f32)] = &[
-    (7, 11, 0.5),  // water_sea
-    (23, 26, 0.5), // water_pond
-    (39, 42, 0.5), // water_reef
+const WATER_ANIMS: &[(u32, u32, f32)] = &[
+    (0, 4, 0.5),   // water_sea
+    (8, 11, 0.5),  // water_pond
+    (16, 19, 0.5), // water_reef
 ];
 
 const FLORA_ANIMS: &[(u32, u32, f32)] = &[
-    (7, 13, 0.5),  // flowers_a
-    (23, 29, 0.5), // flowers_b
+    (32, 36, 0.5), // flowers_a
+    (48, 52, 0.5), // flowers_b
+    (64, 68, 0.5), // flowers_c
+    (80, 84, 0.5), // flowers_d
 ];
 
 #[derive(Resource)]
@@ -33,8 +35,8 @@ pub fn apply_tile_animations(
         };
 
         let anims = match name.0.as_str() {
-            "ground" => GROUND_ANIMS,
-            "flora_masked" => FLORA_ANIMS,
+            "water_animated" => WATER_ANIMS,
+            "flora_animated" => FLORA_ANIMS,
             _ => continue,
         };
 
