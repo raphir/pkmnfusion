@@ -1,3 +1,4 @@
+mod animation;
 mod components;
 mod map;
 mod player;
@@ -27,6 +28,8 @@ fn main() {
             Update,
             (
                 map::build_walkability.run_if(not(resource_exists::<map::WalkabilityMap>)),
+                animation::apply_tile_animations
+                    .run_if(not(resource_exists::<animation::TileAnimationsApplied>)),
                 player::player_movement,
                 player::update_sprite_positions,
                 player::camera_follow,
