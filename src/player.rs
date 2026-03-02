@@ -39,7 +39,7 @@ pub fn player_movement(
     let new_y = player.grid_y + dy;
 
     if let Some(ref map) = walkability {
-        if !map.is_walkable(new_x, new_y) {
+        if !map.can_enter(new_x, new_y, dx, dy) {
             return;
         }
     }

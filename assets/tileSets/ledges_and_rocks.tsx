@@ -18,21 +18,25 @@
  </tile>
  <tile id="3" type="ledge_straight">
   <properties>
+   <property name="jumpDirection" type="string" value="left"/>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="4" type="ledge_straight">
   <properties>
+   <property name="jumpDirection" type="string" value="right"/>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="5" type="ledge_straight">
   <properties>
+   <property name="jumpDirection" type="string" value="right"/>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="6" type="ledge_straight">
   <properties>
+   <property name="jumpDirection" type="string" value="left"/>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
@@ -53,21 +57,25 @@
  </tile>
  <tile id="11" type="ledge_straight">
   <properties>
+   <property name="jumpDirection" type="string" value="up"/>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="12" type="ledge_straight">
   <properties>
+   <property name="jumpDirection" type="string" value="up"/>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="13" type="ledge_straight">
   <properties>
+   <property name="jumpDirection" type="string" value="down"/>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="14" type="ledge_straight">
   <properties>
+   <property name="jumpDirection" type="string" value="down"/>
    <property name="walkable" type="bool" value="true"/>
   </properties>
  </tile>
